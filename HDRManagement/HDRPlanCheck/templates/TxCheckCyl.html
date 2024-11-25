@@ -1,0 +1,38 @@
+{% extends 'base.html'%}
+
+
+{% block content%}
+
+
+<form class="form-inline my-2 my-lg-0" action ='/cylinder/' method = "POST"  >
+    {% csrf_token %}
+    <table>
+   
+
+    <tr><td>Patient Name: </td><td><input class="form-control mr-sm-2" type="text" placeholder="Name"  value = "{{PtName}}" name = 'PatientName'></td></tr>
+   
+    <tr><td>Plan Name: </td><td><input class="form-control mr-sm-2" type="text" placeholder="Name"  value = {{planName}} name = 'PlanName'></td></tr>
+   
+    <tr><td>Reference Date: </td><td><input class="form-control mr-sm-2" type="text" placeholder="Date" value = "{{RefDate}}" name = 'refDate'></td></tr>
+
+    <tr><td>Reference Activity: </td><td><input class="form-control mr-sm-2" type="text" placeholder="Name" value = {{Activity}} name = 'currActivity'></td><td>Ci</td></tr>
+
+    <tr><td>Planned Tx Time: </td><td><input class="form-control mr-sm-2" type="text" placeholder="Name"  value = {{planTime}} name = 'Time'></td><td>S</td></tr>
+
+    <tr><td>Current Date: </td><td><input class="form-control mr-sm-2" type="text" placeholder="Date" value = "{{CurrentDate}}" name = 'currDate'></td></tr>
+
+    <tr><td>Current Activity: </td><td><input class="form-control mr-sm-2" type="text" placeholder="Name" value = {{CurrentActivity}} name = 'currActivity'></td><td>Ci</td></tr>
+    
+    <tr><td>Current Tx Time: </td><td><input class="form-control mr-sm-2" type="text" placeholder= "CurrentTxTime"  value = {{CurrentTxTime}} name = 'CurrentTxTime'></td><td>S</td></tr>
+
+    <tr><td>Rx Dose: </td><td><input class="form-control mr-sm-2" type="text" placeholder= "Name"  value = {{RxDose}} name = 'Rx_dose'></td><td>cGy</td></tr>
+
+    
+    </table><br>
+
+    <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Save</button>
+    
+</form>
+
+
+{%endblock%}

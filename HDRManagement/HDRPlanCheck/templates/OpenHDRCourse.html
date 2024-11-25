@@ -1,0 +1,30 @@
+{% extends 'base.html'%}
+
+
+{% block content%}
+
+{% for patient in patients %}
+<span>{{patient.PatientName}}</span>
+ <td><a class="btn btn-outline-danger btn-sm my-2 my-sm-0" href = "{% url 'deletePatient' patient.pk %}">Delete</a></td></tr>
+    <table class = "table">
+    {%for course in courses%}
+        
+        
+        {%if course.Patient == patient%}
+
+            <div>
+            
+            <tr><td>{{course.CourseName}}<td><td>
+            
+            <a class="btn btn-outline-success btn-sm my-2 my-sm-0" href = "{% url 'openHDRPlan' course.pk %}">Open</a></td>
+            <td><a class="btn btn-outline-danger btn-sm my-2 my-sm-0" href = "{% url 'deleteHDRCourse' course.pk %}">Delete</a></td></tr>
+            
+            </div>
+
+       {% endif %}  
+    {% endfor %}
+    </table>
+
+   {% endfor %}
+
+{% endblock %}

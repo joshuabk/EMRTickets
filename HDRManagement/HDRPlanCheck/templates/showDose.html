@@ -1,0 +1,22 @@
+{% extends 'base.html'%}
+
+{% block content%}
+
+<h1 class = "text-center">Dose Calculation</h1>
+<div class="card mx-auto" id  = 'mainCard'>
+    <div class="card-body mx-auto">
+ <table border = "1" class = "table">
+ <th>2nd Calc</th><th>Plan</th><th>Error %</th>
+{%for doseSet in DoseList%}
+    <tr>
+    {%for key, value in doseSet.items%}
+       <td>{{key}}:{{value}}</td>
+   {%endfor%}
+   </tr>
+</span><br><br>
+{%endfor%}
+<table>
+  </div>
+</div>
+
+{%endblock%}

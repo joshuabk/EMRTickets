@@ -1,0 +1,27 @@
+{% extends 'base.html'%}
+
+
+{% block content%}
+
+   {% include "EquipmentBase.html" %}
+    <table class = "table">
+        <tr><td><a class="btn btn-outline-success btn-sm my-2 my-sm-0" href = "{% url 'addWellChamber' %}">Add Well Chamber</a></td></tr>
+
+        {% for chamber in WellChambers %}
+        
+        <div>
+         
+            <tr><td>{{chamber.Name}}</td><td>{{chamber.SN}}</td>
+            
+            <td><a class="btn btn-outline-success btn-sm my-2 my-sm-0" href = "{% url 'editWellChamber' chamber.pk %}">Edit</a></td>
+            <td><a class="btn btn-outline-danger btn-sm my-2 my-sm-0" href = "{% url 'deleteWellChamber' chamber.pk %}">Delete</a></td></tr>
+            
+        </div>
+
+      
+    {% endfor %}
+    </table>
+
+ 
+
+{% endblock %}

@@ -1,0 +1,26 @@
+
+
+{% extends 'base.html'%}
+
+{% block content%}
+
+
+<tr><td>Patient Name: </td><td><span>{{course.PatientName}} </td></tr>
+<tr><td>Patient Name: </td><td><span>{{course.PatientName}}</td></tr>
+   
+<tr><td>Course Name: </td><td><input class="form-control mr-sm-2" type="text" placeholder="Name"  value = "{{course.CourseName}}"" name = 'CourseName'></td></tr>
+
+ {%for plan in planSet%}
+
+ {%if plan.Course.pk == course.pk %}
+     <form class="form-inline my-2 my-lg-0" method = "POST" action = "{% url 'showHDRPlan' plan.pk %}" enctype="multipart/form-data" >
+            {% csrf_token %}
+
+          <span>Plan Name</span> <span>{{plan.PlanName}}</span>
+
+
+            <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Open</button>
+        </form>
+     {% endif %}
+   {% endfor %}
+{%endblock%}

@@ -1,0 +1,28 @@
+{% extends 'base.html'%}
+
+
+{% block content%}
+
+
+
+<form class="form-inline my-2 my-lg-0"  method = "POST"  action = "{% url 'SaveDailyQA' %}" enctype="multipart/form-data" >
+    {% csrf_token %}
+
+   <div class="card mx-auto" id  = 'mainCard'>
+    <div class="card-body mx-auto">
+    <table class = "table">
+    
+     
+      {{dailyQAForm}}
+      
+      
+     
+    </table>
+    <div>
+      <button class="btn btn-outline-success  btn-sm my-2 my-sm-0" type="submit">Save</button>
+    </div>
+    </div>
+  </div>  
+</form>
+
+{%endblock%}

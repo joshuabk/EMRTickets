@@ -1,0 +1,22 @@
+{% extends 'base.html'%}
+
+
+<link rel="stylesheet" href="styleSheet.css">
+
+{% block content%}
+
+ <div class="card mx-auto" id  = 'mainCard'>
+    <div class="card-body mx-auto">
+    <table class = "table">
+    {{Course.TxType}}
+    {%for check in Checks%}
+
+     <tr><td>{{check.Name}}</td><td>{{check.CheckDescription}}</td><td>{{check.ExpectedValue}}</td><td>{{check.Value}}</td><td id = "result" >{{check.Result}}</td></tr>
+
+      
+    {%endfor%}
+    </table>
+    </div>
+  </div
+
+{%endblock%}

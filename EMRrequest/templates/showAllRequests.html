@@ -1,0 +1,25 @@
+{% extends 'base.html'%}
+
+
+
+{% block content%}
+{% if user.is_authenticated %} 
+<h1 class = "text-center  mb-5">All Requests</h1>
+
+<table border = "1" class = "table ">
+    <th>Edit</th><th><a href="?order_by=Requestor">Requestor</a></th><th><a href="?order_by=Email">Requestor Email</a></th><th><a href="?order_by=Phone">Requestor Telephone</a></th><th><a href="?order_by=Status">Status</a></th><th><a href="?order_by=EMRSystem">EMR System</a></th><th>Request</th><th>Reason</th><th><a href="?order_by=Priority">Priority</a></th><th>Who's Affected</th><th><a href="?order_by=TeamMember">Team Member Assigned</a></th><th>Comment</th><th>Action Taken</th><th><a href="?order_by=-TimeStamp">Date Submitted</a></th><th><a href="?order_by=-DateCompleted">Date Completed</a></th><th>Delete</th>
+
+{%for request in requests%}
+
+{%include 'showRequestBase.html'%}
+
+{% endfor %}
+</table>
+
+{% else %}
+<div class = "text-center">
+    <h1>Please Login to see Requests</h1>
+</div>
+{%endif%}
+
+{%endblock%}

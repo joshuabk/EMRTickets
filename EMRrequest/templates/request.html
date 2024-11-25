@@ -1,0 +1,57 @@
+{% extends 'base.html'%}
+
+
+{% block content%}
+
+
+<form class="form-inline my-2 my-lg-0" action ="{% url 'addRequest' %}" method = "POST"  >
+    {% csrf_token %}
+
+   <div class="card mx-auto" id  = 'mainCard'>
+    <div class="card-body mx-auto">
+    {{errors}}
+    <H5 class = "text-center">Please do not include any PHI in the EMR request form</H5>
+    <table>
+  
+
+    <tr><td>Requestor: </td><td><input class="form-control mr-sm-2" type="text" placeholder="requestor"  name = 'Requestor'></td></tr>
+    
+    <tr><td>Requestor Email: </td><td><input class="form-control mr-sm-2" type="email" placeholder="email"  name = 'Email'></td></tr>
+     
+    <tr><td>Requestor Telephone: </td><td><input class="form-control mr-sm-2" type="tel" placeholder="phone number"  name = 'Phone'></td></tr>
+    
+    <tr><td>EMR System: </td><td> <select name ='EMRSystem' class="form-control">
+        <option value="Aria" >Aria</option> <option value="Mosaic">MOSAIQ</option> <option value="Both">Both</option>  <option value="Other">Other</option> </select></td></tr>
+
+    <tr><td>Request: </td><td><textarea rows="3" cols="50" name = "Request" ></textarea></td></tr>
+    
+    <tr><td>Reason: </td><td><textarea rows="3" cols="50" name = "Reason" ></textarea></td></tr>
+
+    <tr><td>Priority: </td><td> <select name ='Priority' class="form-control">
+        <option value="High" >High</option> <option value="Medium" selected>Medium</option>  <option value="Low">Low</option></select></td></tr>
+   
+    <tr><td>Who's Affected: </td><td><textarea rows="3" cols="50" name = "Impact" ></textarea></td></tr>
+    
+    
+   
+    
+
+</table><br>
+
+</div>
+<button class="btn btn-outline-success my-2 my-sm-0 ml-5 mr-5" type="submit">Save</button>
+</div>
+
+   
+    
+</form>
+
+<style>
+        #mainCard{
+            margin-bottom: 150px
+        }
+    
+    </style>
+
+
+{%endblock%}

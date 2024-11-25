@@ -1,0 +1,27 @@
+{% extends 'base.html'%}
+
+
+{% block content%}
+
+   {% include "EquipmentBase.html" %}
+    <table class = "table">
+        <tr><td><a class="btn btn-outline-success btn-sm my-2 my-sm-0" href = "{% url 'addSurveyMeter' %}">Add Survey Meter</a></td></tr>
+
+        {% for meter in SurveyMeters %}
+        
+        <div>
+         
+            <tr><td>{{meter.SurveyMeterName}}</td><td>{{meter.MeterSN}}</td>
+            
+            <td><a class="btn btn-outline-success btn-sm my-2 my-sm-0" href = "{% url 'editSurveyMeter' meter.pk %}">Edit</a></td>
+            <td><a class="btn btn-outline-danger btn-sm my-2 my-sm-0" href = "{% url 'deleteSurveyMeter' meter.pk %}">Delete</a></td></tr>
+            
+        </div>
+
+      
+    {% endfor %}
+    </table>
+
+ 
+
+{% endblock %}

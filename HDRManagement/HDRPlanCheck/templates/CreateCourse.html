@@ -1,0 +1,49 @@
+
+
+  
+{% extends 'base.html'%}
+
+
+{% block content%}
+
+  <form class="form-inline my-2 my-lg-0" action = "{% url 'importPlanToCourse'%}" method = "POST" enctype="multipart/form-data">
+    {% csrf_token %}
+  <div class="card mx-auto" id  = 'mainCard'>
+    <div class="card-body mx-auto">
+    <input class="form-control mr-sm-2" type="file" name="planFile">
+    
+    <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Import</button>
+   
+     <div class="card mx-auto" id  = 'mainCard'>
+     <div class="card-body mx-auto">
+
+</form><br>
+
+  <form class="form-inline my-2 my-lg-0" action = "{% url 'saveCourse' %}" method = "POST" enctype="multipart/form-data" >
+    {% csrf_token %}
+    
+     <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Calc Dose</button>
+
+   <div class="card mx-auto" id  = 'mainCard'>
+    <div class="card-body mx-auto">
+
+    <table class = "table">
+    <tr><td>Patient Name</td><td><input name ="PatientName" value = '{{PatientName}}'></td></tr>
+    <tr><td>Course Name</td><td><input name ="CourseName" value = '{{CourseName}}'></td></tr>
+    <tr><td>Course Type</td><td><select name ="CourseType"><option value = "SinglePlan">Single Plan</option><option value = "MultiPlan">Multi-Plan</option></select></td></tr>
+    <tr><td>Treatment Type</td><td><select name ="TxType"><option value = "Cylinder">Cylinder</option><option value = "T&O">T&O</option></select></td></tr>
+    <tr><td>Number of Fractions</td><td><select name = "NumFractions"><option value = 1>1</option><option value = 2>2</option><option value = 3>3</option><option value = 4>4</option><option value = 5>5</option><option value = 6>6</option><option value = 7>7</option><option value = 8>8</option><option value = 9>9</option><option value = 10>10</option><option value = 11>11</option></select></td></tr>
+    <tr><td>RX Dose</td><td><input type = "text" name = "RXDose"></td><td>cGy</td></tr>
+    <tr><td>RX Distance</td><td><input type = "text" name = "RXDist"></td><td>mm</td></tr>
+    <tr><td>Plan File</td><td><input type = "text" name = "PlanFile" value = {{PlanFile}}></td></tr>
+
+    </table><br>
+ </div>
+</div>
+<div>
+  <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Create Course</button>
+</div>
+</form>
+
+
+{% endblock %}

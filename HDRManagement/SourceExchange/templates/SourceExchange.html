@@ -1,0 +1,39 @@
+{% extends 'base.html'%}
+
+
+{% block content%}
+
+<nav class="navbar navbar-expand-sm bg-light navbar-light justify-content-center">
+
+  <!-- Links -->
+
+    <ul class="navbar-nav ml-auto">
+  
+      <li class="nav-item">
+            
+        <a class="nav-link" href="{% url 'KermaMeasureView' kermaM.pk %}">Sweet Spot Measurement</a>
+      </li>  
+     
+    </ul>
+  </nav>
+ 
+
+
+<form class="form-inline my-2 my-lg-0"  method = "POST"  action = "{% url 'saveSourceExchange' kermaM.pk %}" enctype="multipart/form-data" >
+    {% csrf_token %}
+
+   <div class="card mx-auto" id  = 'mainCard'>
+    <div class="card-body mx-auto">
+    <table class = "table">
+     
+      {{sourceExchangeForm}}
+     
+    </table>
+    <div>
+      <button class="btn btn-outline-success  btn-sm my-2 my-sm-0" type="submit">Save</button>
+    </div>
+    </div>
+  </div>  
+</form>
+
+{%endblock%}

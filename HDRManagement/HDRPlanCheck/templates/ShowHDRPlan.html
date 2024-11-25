@@ -1,0 +1,111 @@
+{% extends 'base.html'%}
+
+
+{% block content%}
+
+  <form class="form-inline my-2 my-lg-0" action = "{% url 'calcDose' HDRPlan.id %}" method = "POST" enctype="multipart/form-data" >
+    {% csrf_token %}
+    
+    <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Calc Dose</button>
+   </form>
+
+   <form class="form-inline my-2 my-lg-0" action = "{% url 'checkCylinderPlan' HDRPlan.id %}" method = "POST" enctype="multipart/form-data" >
+    {% csrf_token %}
+    
+    <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Check Plan</button>
+   </form>
+
+
+   <div class="card mx-auto" id  = 'mainCard'>
+    <div class="card-body mx-auto">
+
+    <table class = "table">
+
+    <tr><td>Patient Name:</td><td>{{HDRPlan.PatientName}} </td></tr>
+   
+    <tr><td>Course Name: </td><td>{{HDRPlan.Course.CourseName}} </td></tr>
+   
+    <tr><td>Reference Date: </td><td>{{HDRPlan.RefDate}}</td></tr>
+
+    <tr><td>Reference Activity: </td><td>{{HDRPlan.PlanActivity}} Ci</td></tr>
+
+    <tr><td>Current Activity: </td><td>{{CurrentActivity}} Ci</td></tr>
+
+    <tr><td>Planned Tx Time: </td><td>{{HDRPlan.Time}} S</td></tr>
+
+    <tr><td>Current Tx Time: </td><td>{{CurrentTxTime}} S</td></tr>
+
+    <tr><td>Current Date: </td><td>{{CurrentDateTime}}</td></tr>
+
+    <tr><td>Number of Fractions: </td><td>{{HDRPlan.NumFx}}</td></tr>
+    
+    <tr><td>Rx Dose/Fx: </td><td>{{HDRPlan.Rx_dose}} cGy</td></tr>
+
+    
+    </table><br>
+    </div>
+    </div>
+    
+   <div class="card mx-auto" id  = 'mainCard'>
+    <div class="card-body mx-auto">
+    
+    {%for fraction in Fractions%}
+    <table class = "table">
+     <tr><td>Course Name: </td><td>{{fraction.HDRCourse.CourseName}} </td></tr>
+     <tr><td>Fraction Number: </td><td>{{fraction.FxNum}} </td></tr>
+     <tr><td>Fraction Dose: </td><td>{{fraction.Dose}} </td></tr>
+     </table>
+    {%endfor%}
+    
+    </div>
+  </div>
+
+    {%for channel in ChannelSet%}
+   <div class="card mx-auto" id  = 'mainCard'>
+    <div class="card-body mx-auto">
+
+   
+    <table class = "table">
+            <tr><td>Channel Total Time: </td><td>{{channel.ChannelTime}} </td></tr>
+            <tr><td>Channel ID Number </td><td>{{channel.ChannelIDNumber}} </td></tr>
+            <tr><td>Channel ID Number </td><td> {{channel.ChannelMapNumber}} </td></tr>
+            <tr><td>Channel StepSize </td><td>{{channel.StepSize}} cm</td></tr>
+            <tr><td>Channel Length </td><td> {{channel.ChannelLength}} cm</td></tr>
+            <tr><td>Number Of Control Points </td><td>{{channel.NumberOfControlPoints}}</td></tr>
+    </table><br>   
+    
+            {%for CP in ControlPointSet%}
+           
+            {%if CP.Channel == channel%}
+            <table class = "table">
+                <tr><td>CP Number </td><td> {{CP.ControlPtIndex}} </td></tr> 
+                <tr><td>Dwell Time </td><td>{{CP.TimeAtPosition}} S</td></tr> 
+                <tr><td>X position </td><td>{{CP.CPointXpos}} cm</td></tr>
+                <tr><td>Y position </td><td>{{CP.CPointYpos}} cm</td></tr>
+                <tr><td>Z position </td><td>{{CP.CPointZpos}} cm</td></tr>
+            
+            </table><br>
+             {%endif%}
+            {%endfor%}
+    
+       </div>
+    </div>
+    {%endfor%}
+ <div class="card mx-auto" id  = 'mainCard'>
+    <div class="card-body mx-auto">
+     {%for DP in DosePointSet%}
+           <table class = "table">
+                <tr><td>Ref Number </td><td> {{DP.RefNumber}} </td></tr> 
+                <tr><td>Dose </td><td>{{DP.Dose}} S</td></tr> 
+                <tr><td>X position </td><td>{{DP.DosePointX}} cm</td></tr>
+                <tr><td>Y position </td><td>{{DP.DosePointY}} cm</td></tr>
+                <tr><td>Z position </td><td>{{DP.DosePointZ}} cm</td></tr>
+            </table><br>
+    {%endfor%}
+     </div>
+    </div>
+
+  
+
+
+{%endblock%}
