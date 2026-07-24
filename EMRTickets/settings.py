@@ -25,7 +25,7 @@ SECRET_KEY = '2tqen!d6#t$%%h570cj3x8)mpnx*bc7onh%$1t7hph=5me#66h'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['10.40.71.201', 'localhost', 'cc9gx6t-nf1100.northside.local']
+ALLOWED_HOSTS = ['10.40.71.201','167.183.14.241', 'localhost', 'cc9gx6t-nf1100.northside.local']
 
 
 # Application definition
@@ -86,9 +86,9 @@ SITE_HOST = '10.40.71.201:2000'
 #EMAIL_USE_TLS = True
 EMAIL_USE_SSL = True
 EMAIL_HOST='smtp.gmail.com'
-EMAIL_PORT=465
+EMAIL_PORT= 465
 EMAIL_HOST_USER = 'northsideemr@gmail.com'
-EMAIL_HOST_PASSWORD = 'EMRTrack'
+EMAIL_HOST_PASSWORD = 'wlkblvzmafvxftkq'
 DEFAULT_EMAIL_FROM = 'northsideemr@gmail.com'
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 

@@ -15,13 +15,20 @@ from datetime import datetime
 from django.core import mail
 from django.core.mail.backends.smtp import EmailBackend
 
+import tkinter as tk
+
+from tkinter import messagebox
+
+
+
    
 
 
 
 # Create your views here.
 
-
+#admin login
+#joshuabk, physics1
 
 
 def addRequest(request):
@@ -30,33 +37,48 @@ def addRequest(request):
         form = requestForm(request.POST or None)
 
         if form.is_valid():
-            form.save()
+            req = form.save()
             messages.success(request, ('Item has been Added to the list!'))
             print('send mail')
 
-            connection = mail.get_connection()
+          
+            '''connection = mail.get_connection()
             print(connection)
-            '''if isinstance(connection, EmailBackend):
+                if isinstance(connection, EmailBackend):
                 connection.open()
-                print("connection is open")'''
+                print("connection is open")
              
                
-           
-            body = 'The new request from '+ request.POST.get('Requestor')+' is as follows: \n\n EMR System: '+  request.POST.get('EMRSystem')+'\n \n Request: '+ request.POST.get('Request')+'  \n\n Reason: '+ request.POST.get('Reason')+'\n\n Priority: '+  request.POST.get('Priority')+'\n\n Impact: '+  request.POST.get('Impact') +'\n\nHere is the link to the EMR Request page http://10.40.71.201:2000/'  
+            body = 'The new request from '+ request.POST.get('Requestor')+' is as follows: \n\n EMR System: '+  request.POST.get('EMRSystem')+'\n \n Request: '+ request.POST.get('Request')+'  \n\n Reason: '+ request.POST.get('Reason')+'\n\n Priority: '+  request.POST.get('Priority')+'\n\n Impact: '+  request.POST.get('Impact') +'\n\nHere is the link to the EMR Request page http://167.183.14.241:2000/'  
             
+            body2 = 'The new request from '+ request.POST.get('Requestor')+' is as follows: \n\n EMR System: '+  request.POST.get('EMRSystem')+'\n \n Request: '+ request.POST.get('Request')+'  \n\n Reason: '+ request.POST.get('Reason')+'\n\n Priority: '+  request.POST.get('Priority')+'\n\n Impact: '+  request.POST.get('Impact')   
             print(body)
             email = EmailMessage(
                   'New EMR Change Request',
                    body,
-                    settings.EMAIL_HOST_USER,
-                   ['joshua.kessler@northside.com', 'RadiationOncologyEMR@northside.com',])
+                   settings.EMAIL_HOST_USER,
+                   ['Ashley.davis2@northside.com', 'Laura.NkwentiBimbo@northside.com','Debra.Corbin@northside.com','Mrugesh.Patel@northside.com', 'Terror.Ragland@northside.com','Tomi.Ogunleye@northside.com', 'Gina.Kellogg@northside.com', 'Alisha.Childs@northside.com','Darlene.ritarita@northside.com','Camille.smith2@northside.com','Ashley.Chackalayil@northside.com','RadiationOncologyEMR@northside.com'])
             
-
+           
             email.send()
-            print('mail sent')
+            
+
+            email2 = EmailMessage(
+                  'EMR Change Request Confirmation',
+                   body2,
+                    settings.EMAIL_HOST_USER,
+                   ['Joshua.Kessler@northside.com', request.POST.get('Email')])
+
+            email2.send()
+
+           
+
+           
+
+            print('mail sent')'''
 
             
-            return render(request, 'requestSuccess.html', {})
+            return render(request, 'requestSuccess.html', {'requestID': req.pk})
         else:
             messages.error(request, "Error")
             return render(request, 'request.html', {'errors': form.errors})
@@ -98,8 +120,20 @@ def editRequest(request, request_id):
             if temReq.Status =="Complete" and  temReq.DateCompleted ==None:
                 temReq.DateCompleted = datetime.now()
                 temReq.save()
+               
+                #root.withdraw()
+                confirmMessage = "Dear "+requestEMR.Requestor+",\n \n Your EMR Change request #"+ str(requestEMR.pk)+ " has been resolved \n\n Request: "+ requestEMR.Request+"\n \n Action Taken: "+requestEMR.ActionTaken+"\n \n Thanks, \n "+ requestEMR.TeamMember
+                email = EmailMessage(
+                  'EMR Change Request Completion Message',
+                   confirmMessage,
+                    settings.EMAIL_HOST_USER,
+                   [requestEMR.Email])
+            
+           
+                #email.send()
             else:
                 temReq.save()
+                print("save doont complete")
 
             requests = list(EMRrequest.objects.all())
             
@@ -107,7 +141,7 @@ def editRequest(request, request_id):
             return redirect('showActiveRequests')
         else:
            
-            print("Farts")
+            print("Form is not Valid")
             messages.error(request, "Error")
             requests = EMRrequest.objects.all
             return redirect('showActiveRequests')
