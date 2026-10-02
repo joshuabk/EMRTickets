@@ -20,6 +20,7 @@ import tkinter as tk
 from tkinter import messagebox
 
 
+#user: EMRadmin   pass:  northsideemr
 
    
 
