@@ -1,93 +1,109 @@
-{% extends 'base.html'%}
+{% extends 'base.html' %}
+{% block title %}Edit Request #{{ request.pk }} &middot; EMR Change Requests{% endblock %}
 
+{% block content %}
+<div class="row justify-content-center">
+  <div class="col-lg-9 col-xl-8">
 
-{% block content%}
+    <div class="page-head">
+      <h2 class="page-title">Edit Request #{{ request.pk }}</h2>
+      <div class="text-muted small">
+        Submitted {{ request.TimeStamp|date:"M j, Y g:i A" }}
+        {% if request.DateCompleted %} &middot; Completed {{ request.DateCompleted|date:"M j, Y g:i A" }}{% endif %}
+      </div>
+    </div>
 
+    {% if errors %}
+    <div class="alert alert-danger" role="alert">
+      Please correct the following: {{ errors }}
+    </div>
+    {% endif %}
 
-<form class="form-inline my-2 my-lg-0" action ="{% url 'editRequest' request.pk %}" method = "POST"  >
-    {% csrf_token %}
-    
-   <div class="card mx-auto" id  = 'mainCard'>
-    <div class="card-body mx-auto">
-    {{errors}}
-    <table>
-  
+    <form action="{% url 'editRequest' request.pk %}" method="POST">
+      {% csrf_token %}
+      <div class="card">
+        <div class="card-body">
 
-    <tr><td>Requestor: </td><td><input class="form-control mr-sm-2" type="text" placeholder="requestor"  name = 'Requestor' value =  '{{request.Requestor}}'></td></tr>
-    <tr><td>Requestor Email: </td><td><input class="form-control mr-sm-2" type="email" placeholder="email"  name = 'Email' value =  '{{request.Email}}'></td></tr>
+          <div class="form-section-title">Requestor</div>
+          <div class="form-row">
+            <div class="form-group col-md-4">
+              <label for="Requestor">Name</label>
+              <input class="form-control" type="text" id="Requestor" name="Requestor" maxlength="25" value="{{ request.Requestor }}" required>
+            </div>
+            <div class="form-group col-md-4">
+              <label for="Email">Email</label>
+              <input class="form-control" type="email" id="Email" name="Email" value="{{ request.Email|default_if_none:'' }}">
+            </div>
+            <div class="form-group col-md-4">
+              <label for="Phone">Telephone</label>
+              <input class="form-control" type="tel" id="Phone" name="Phone" maxlength="16" value="{{ request.Phone }}">
+            </div>
+          </div>
 
-    <tr><td>Requestor Telephone: </td><td><input class="form-control mr-sm-2" type="tel" placeholder="phone number"  name = 'Phone' value =  '{{request.Phone}}'></td></tr>
-    
-    {% if request.EMRSystem == "Aria" %}
-    <tr><td>EMR System: </td><td> <select name ='EMRSystem' class="form-control">
-        <option value="Aria" selected>Aria</option> <option value="MOSAIQ">MOSAIQ</option> <option value="Both">Both</option>  <option value="Other">Other</option> </select></td></tr>
-    {% elif request.EMRSystem == "MOSAIQ" %}
-    <tr><td>EMR System: </td><td> <select name ='EMRSystem' class="form-control">
-        <option value="Aria" >Aria</option> <option value="MOSAIQ" selected>MOSAIQ</option> <option value="Both">Both</option>  <option value="Other">Other</option> </select></td></tr>
+          <div class="form-section-title mt-3">Request</div>
+          <div class="form-row">
+            <div class="form-group col-md-6">
+              <label for="EMRSystem">EMR System</label>
+              <select class="form-control" id="EMRSystem" name="EMRSystem">
+                <option value="Aria"{% if request.EMRSystem == "Aria" %} selected{% endif %}>Aria</option>
+                <option value="MOSAIQ"{% if request.EMRSystem == "MOSAIQ" %} selected{% endif %}>MOSAIQ</option>
+                <option value="Both"{% if request.EMRSystem == "Both" %} selected{% endif %}>Both</option>
+                <option value="Other"{% if request.EMRSystem == "Other" %} selected{% endif %}>Other</option>
+              </select>
+            </div>
+            <div class="form-group col-md-6">
+              <label for="Priority">Priority</label>
+              <select class="form-control" id="Priority" name="Priority">
+                <option value="High"{% if request.Priority == "High" %} selected{% endif %}>High</option>
+                <option value="Medium"{% if request.Priority == "Medium" %} selected{% endif %}>Medium</option>
+                <option value="Low"{% if request.Priority == "Low" %} selected{% endif %}>Low</option>
+              </select>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="Request">Requested change</label>
+            <textarea class="form-control" id="Request" name="Request" rows="4" maxlength="800" required>{{ request.Request }}</textarea>
+          </div>
+          <div class="form-group">
+            <label for="Reason">Reason</label>
+            <textarea class="form-control" id="Reason" name="Reason" rows="3" maxlength="800">{{ request.Reason }}</textarea>
+          </div>
+          <div class="form-group">
+            <label for="Impact">Who's affected</label>
+            <textarea class="form-control" id="Impact" name="Impact" rows="2" maxlength="400">{{ request.Impact }}</textarea>
+          </div>
 
-    {% elif request.EMRSystem == "Both" %}
-    <tr><td>EMR System: </td><td> <select name ='EMRSystem' class="form-control">
-        <option value="Aria" >Aria</option> <option value="MOSAIQ"  selected>MOSAIQ</option> <option value="Both" selected>Both</option>  <option value="Other">Other</option> </select></td></tr>
+          <div class="form-section-title mt-3">EMR Team</div>
+          <div class="form-row">
+            <div class="form-group col-md-6">
+              <label for="Status">Status</label>
+              <select class="form-control" id="Status" name="Status">
+                <option value="Pending"{% if request.Status == "Pending" %} selected{% endif %}>Pending</option>
+                <option value="Complete"{% if request.Status == "Complete" %} selected{% endif %}>Complete</option>
+              </select>
+            </div>
+            <div class="form-group col-md-6">
+              <label for="TeamMember">Team Member Assigned</label>
+              <input class="form-control" type="text" id="TeamMember" name="TeamMember" maxlength="30" value="{{ request.TeamMember }}">
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="Comment">Comment</label>
+            <textarea class="form-control" id="Comment" name="Comment" rows="3" maxlength="600">{{ request.Comment }}</textarea>
+          </div>
+          <div class="form-group mb-0">
+            <label for="ActionTaken">Action Taken</label>
+            <textarea class="form-control" id="ActionTaken" name="ActionTaken" rows="3" maxlength="600">{{ request.ActionTaken }}</textarea>
+          </div>
 
-    {% elif request.EMRSystem == "Other" %}
-    <tr><td>EMR System: </td><td> <select name ='EMRSystem' class="form-control">
-        <option value="Aria" >Aria</option> <option value="MOSAIQ"  selected>MOSAIQ</option> <option value="Both">Both</option>  <option value="Other" selected>Other</option> </select></td></tr>
+          <div class="form-actions">
+            <a class="btn btn-outline-secondary" href="{% url 'showActiveRequests' %}">Cancel</a>
+            <button class="btn btn-primary px-4" type="submit">Save Changes</button>
+          </div>
+        </div>
+      </div>
+    </form>
 
-    {%endif%}
-
-    <tr><td>Request: </td><td><textarea rows="3" cols="50"  maxlength = "800" name = "Request" >{{request.Request}}</textarea></td></tr>
-    
-    <tr><td>Reason: </td><td><textarea rows="3" cols="50"  maxlength = "800" name = "Reason"  >{{request.Reason}}</textarea></td></tr>
-    
-    {% if request.Priority == "Low" %}
-    <tr><td>Priority: </td><td> <select name ='Priority' class="form-control">
-        <option value="High" >High</option> <option value="Medium">Medium</option>  <option value="Low" selecited>Low</option></select></td></tr>
-
-    {% elif request.Priority == "Medium" %}
-    <tr><td>Priority: </td><td> <select name ='Priority' class="form-control">
-        <option value="High" >High</option> <option value="Medium"selected>Medium</option>  <option value="Low" selecited>Low</option></select></td></tr>
-    
-    {% elif request.Priority == "High" %}
-    <tr><td>Priority: </td><td> <select name ='Priority' class="form-control">
-        <option value="High" selected>High</option> <option value="Medium"selected>Medium</option>  <option value="Low" selecited>Low</option></select></td></tr>
-   
-    {%endif%}
-    <tr><td>Who's Affected: </td><td><textarea rows="3"  maxlength = "400" cols="50" name = "Impact" >{{request.Impact}}</textarea></td></tr>
-    
-
-
-
-    {% if request.Status == "Pending" %}
-    <tr><td>Status: </td><td> <select name ='Status' class="form-control">
-        <option value="Pending" selected >Pending</option> <option value="Complete">Complete</option> </select></td></tr>
-    {% elif request.Status == "Complete" %}
-    <tr><td>Status: </td><td> <select name ='Status' class="form-control">
-        <option value="Pending" >Pending</option> <option value="Complete"  selected>Complete</option> </select></td></tr>
-
-    {%endif%}
-
-    <tr><td>Team Member Assigned: </td><td><input class="form-control mr-sm-2" type="text" placeholder="Team Member"  name = 'TeamMember' value =  '{{request.TeamMember}}'></td></tr>
-    <tr><td>Comment: </td><td><textarea rows="3" cols="50"  maxlength = "600" name = "Comment"  >{{request.Comment}}</textarea></td></tr>
-    
-    <tr><td>Action Taken: </td><td><textarea rows="3"  maxlength = "600" cols="50" name = "ActionTaken"  >{{request.ActionTaken}}</textarea></td></tr>
-    
-
-</table><br>
-
+  </div>
 </div>
-<button class="btn btn-outline-success my-2 my-sm-0 ml-5 mr-5" type="submit">Save</button>
-</div>
-
-   
-    
-</form>
-
-<style>
-        #mainCard{
-            margin-bottom: 150px
-        }
-    
-    </style>
-
-
-{%endblock%}
+{% endblock %}

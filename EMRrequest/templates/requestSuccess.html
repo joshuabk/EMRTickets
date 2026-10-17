@@ -1,26 +1,17 @@
-Great Success!
+{% extends 'base.html' %}
+{% block title %}Request Submitted &middot; EMR Change Requests{% endblock %}
 
-{% extends 'base.html'%}
-
-
-
-{% block content%}
-
-<div class = text-center>
-    <h1>Your request has been submitted to the EMR Team, the request # is {{requestID}}</h1><br><br>
-
-    <span>You will be contacted directly if any additional information is needed</span><br><br>
-
-    <span>If you do not recieve a timely response, please email <a href = "mailto: RadiationOncologyEMR@northside.com"> RadiationOncologyEMR@northside.com
-    
-    </a>
-       
-    </span><br><br>
-
-    <h3>Thank You!</h3>
-
-
-
+{% block content %}
+<div class="card success-card">
+  <div class="card-body py-5">
+    <p class="text-muted text-uppercase small mb-1" style="letter-spacing: .06em;">Request submitted</p>
+    <div class="request-number">#{{ requestID }}</div>
+    <p class="mt-3 mb-1">Your request has been sent to the EMR Team. You will be contacted directly if any additional information is needed.</p>
+    <p class="text-muted small mb-4">
+      If you do not receive a timely response, email
+      <a href="mailto:RadiationOncologyEMR@northside.com">RadiationOncologyEMR@northside.com</a>.
+    </p>
+    <a class="btn btn-outline-primary" href="{% url 'addRequest' %}">Submit another request</a>
+  </div>
 </div>
-
-{%endblock%}
+{% endblock %}

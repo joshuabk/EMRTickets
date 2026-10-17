@@ -1,57 +1,85 @@
-{% extends 'base.html'%}
+{% extends 'base.html' %}
+{% block title %}New Request &middot; EMR Change Requests{% endblock %}
 
+{% block content %}
+<div class="row justify-content-center">
+  <div class="col-lg-8 col-xl-7">
 
-{% block content%}
+    <div class="page-head">
+      <h2 class="page-title">New Change Request</h2>
+    </div>
 
+    <div class="alert alert-light phi-notice mb-3" role="alert">
+      Please do not include any PHI in this form.
+    </div>
 
-<form class="form-inline my-2 my-lg-0" action ="{% url 'addRequest' %}" method = "POST"  >
-    {% csrf_token %}
+    {% if errors %}
+    <div class="alert alert-danger" role="alert">
+      Please correct the following: {{ errors }}
+    </div>
+    {% endif %}
 
-   <div class="card mx-auto" id  = 'mainCard'>
-    <div class="card-body mx-auto">
-    {{errors}}
-    <H5 class = "text-center">Please do not include any PHI in the EMR request form</H5>
-    <table>
-  
+    <form action="{% url 'addRequest' %}" method="POST">
+      {% csrf_token %}
+      <div class="card">
+        <div class="card-body">
 
-    <tr><td>Requestor: </td><td><input class="form-control mr-sm-2" type="text" placeholder="requestor"  name = 'Requestor'></td></tr>
-    
-    <tr><td>Requestor Email: </td><td><input class="form-control mr-sm-2" type="email" placeholder="email"  name = 'Email'></td></tr>
-     
-    <tr><td>Requestor Telephone: </td><td><input class="form-control mr-sm-2" type="tel" placeholder="phone number"  name = 'Phone'></td></tr>
-    
-    <tr><td>EMR System: </td><td> <select name ='EMRSystem' class="form-control">
-        <option value="Aria" >Aria</option> <option value="MOSAIQ" >MOSAIQ</option> <option value="Both">Both</option>  <option value="Other">Other</option> </select></td></tr>
+          <div class="form-section-title">Requestor</div>
+          <div class="form-row">
+            <div class="form-group col-md-4">
+              <label for="Requestor">Name</label>
+              <input class="form-control" type="text" id="Requestor" name="Requestor" maxlength="25" required>
+            </div>
+            <div class="form-group col-md-4">
+              <label for="Email">Email</label>
+              <input class="form-control" type="email" id="Email" name="Email">
+            </div>
+            <div class="form-group col-md-4">
+              <label for="Phone">Telephone</label>
+              <input class="form-control" type="tel" id="Phone" name="Phone" maxlength="16">
+            </div>
+          </div>
 
-    <tr><td>Request: </td><td><textarea rows="3" maxlength = "800" cols="50" name = "Request" ></textarea></td></tr>
-    
-    <tr><td>Reason: </td><td><textarea rows="3" maxlength = "800" cols="50" name = "Reason" ></textarea></td></tr>
+          <div class="form-section-title mt-3">Request</div>
+          <div class="form-row">
+            <div class="form-group col-md-6">
+              <label for="EMRSystem">EMR System</label>
+              <select class="form-control" id="EMRSystem" name="EMRSystem">
+                <option value="Aria">Aria</option>
+                <option value="MOSAIQ">MOSAIQ</option>
+                <option value="Both">Both</option>
+                <option value="Other">Other</option>
+              </select>
+            </div>
+            <div class="form-group col-md-6">
+              <label for="Priority">Priority</label>
+              <select class="form-control" id="Priority" name="Priority">
+                <option value="High">High</option>
+                <option value="Medium" selected>Medium</option>
+                <option value="Low">Low</option>
+              </select>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="Request">Requested change</label>
+            <textarea class="form-control" id="Request" name="Request" rows="4" maxlength="800" required></textarea>
+          </div>
+          <div class="form-group">
+            <label for="Reason">Reason</label>
+            <textarea class="form-control" id="Reason" name="Reason" rows="3" maxlength="800"></textarea>
+          </div>
+          <div class="form-group mb-0">
+            <label for="Impact">Who's affected</label>
+            <textarea class="form-control" id="Impact" name="Impact" rows="2" maxlength="400"></textarea>
+          </div>
 
-    <tr><td>Priority: </td><td> <select name ='Priority' class="form-control">
-        <option value="High" >High</option> <option value="Medium" selected>Medium</option>  <option value="Low">Low</option></select></td></tr>
-   
-    <tr><td>Who's Affected: </td><td><textarea rows="3" cols="50" maxlength = "400" name = "Impact" ></textarea></td></tr>
-    
-    
-   
-    
+          <div class="form-actions">
+            <button class="btn btn-primary px-4" type="submit">Submit Request</button>
+          </div>
+        </div>
+      </div>
+    </form>
 
-</table><br>
-
+  </div>
 </div>
-<button class="btn btn-outline-success my-2 my-sm-0 ml-5 mr-5" type="submit">Save</button>
-</div>
-
-   
-    
-</form>
-
-<style>
-        #mainCard{
-            margin-bottom: 150px
-        }
-    
-    </style>
-
-
-{%endblock%}
+{% endblock %}

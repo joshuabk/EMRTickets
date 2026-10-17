@@ -3,6 +3,7 @@ from .models import EMRrequest
 from .forms import requestForm, editRequestForm
 
 from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.decorators import login_required
 
 from django.contrib import messages 
 
@@ -88,18 +89,21 @@ def addRequest(request):
         return render(request, 'request.html', {})
 
 
+@login_required
 def showActiveRequests(request):
    
     orderBy = request.GET.get('order_by', '-TimeStamp')
     requests = EMRrequest.objects.all().order_by(orderBy)
     return render(request, 'showActiveRequests.html', {'requests':requests})
 
+@login_required
 def showAllRequests(request):
     orderBy = request.GET.get('order_by', '-TimeStamp')
     requests = EMRrequest.objects.all().order_by(orderBy)
     return render(request, 'showAllRequests.html', {'requests':requests})
 
 
+@login_required
 def deleteRequest(request, request_id):
     deleteRequest = EMRrequest.objects.get(pk = request_id)
     deleteRequest.delete()
@@ -107,6 +111,7 @@ def deleteRequest(request, request_id):
     return redirect('showActiveRequests')
 
 
+@login_required
 def editRequest(request, request_id):
     if request.method == "POST":
         requestEMR = EMRrequest.objects.get(pk = request_id)

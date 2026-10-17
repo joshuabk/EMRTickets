@@ -1,102 +1,86 @@
 <!doctype html>
 {% load static %}
 <html lang="en">
-  <head>
-    <!-- Required meta tags -->
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <title>{% block title %}EMR Change Requests{% endblock %}</title>
 
-    <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
-
-  <title>EMR Tickets</title>
-  </head>
-  <div class="jumbotron"  >
-    <div class="row"><h1 class="display-4">EMR Change Requests</h1>
-    <img src = "{% static '/NSHCI_Logo.png'%}" class = "img-fluid ml-auto"></div>
-
-    
-  
-  </div>
-
-
-  <nav class="navbar navbar-expand-sm bg-light navbar-light justify-content-center">
-
-    <!-- Links -->
-    <ul class="navbar-nav ml-auto">
-
-      {% if user.is_authenticated %}
-      <li class="nav-item">
-        <a class="nav-link " href="{% url 'logout' %}">Logout</a>
-      </li>
-      {%else%}
-      <li class="nav-item">
-        <a class="nav-link " href="{% url 'login' %}">Login</a>
-      </li>
-
-     {% endif %}
-    
-     
-     
-     <li class="nav-item">
-        <a class="nav-link" href="{% url 'addRequest' %}">Add Request</a>
-     </li>  
-
-       <li class="nav-item">
-                <a class="nav-link " href="/showActiveRequests">Pending Requests</a>
-        </li>
-
-    
-      <li class="nav-item">
-        <a class="nav-link" href="/showAllRequests">All Requests</a>
-      </li>
-      
-      
-    </ul>
-  
-</nav>
-
-<style>
-  
- td {
-  padding: 8px;
- }
- .jumbotron {
-  margin-bottom: 0px;
- 
-  color: #050527;
-  background-color:#17345E;
-  color: whitesmoke;
-
-}
-.navbar-custom{
-  background-color:#99badd
-
-
-}
-
-.img-fluid {
-  width: 700px;
-  height: auto;
-  float:right
-}
-
-table{
-  
-  margin-left: 30px;
-}
-
-body{
-  margin-bottom: 100px;
-}
-
-</style> 
-<!-- tr:nth-child(even) {background: #E0E0E0} -->
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+  <link rel="stylesheet" href="{% static 'style.css' %}">
+</head>
 
 <body>
-  
-    {% block content %}
-    {% endblock %}
-    
-  </body>
+  {% with current=request.resolver_match.url_name %}
+  <header class="site-header">
+    <div class="container">
+      <div class="brand-row">
+        <div>
+          <h1 class="brand-title">EMR Change Requests</h1>
+          <p class="brand-sub">Radiation Oncology &middot; Aria and MOSAIQ</p>
+        </div>
+        <img src="{% static 'NSHCI_Logo.png' %}" alt="Northside Hospital Cancer Institute, Department of Radiation Oncology" class="brand-logo">
+      </div>
+    </div>
+  </header>
+
+  <div class="site-nav">
+    <div class="container">
+      <nav class="navbar navbar-expand-sm navbar-dark">
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#mainNav" aria-controls="mainNav" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="mainNav">
+          <ul class="navbar-nav mr-auto">
+            <li class="nav-item">
+              <a class="nav-link{% if current == 'addRequest' %} active{% endif %}" href="{% url 'addRequest' %}">New Request</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link{% if current == 'showActiveRequests' %} active{% endif %}" href="{% url 'showActiveRequests' %}">Pending Requests</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link{% if current == 'showAllRequests' %} active{% endif %}" href="{% url 'showAllRequests' %}">All Requests</a>
+            </li>
+          </ul>
+          <ul class="navbar-nav ml-auto">
+            {% if user.is_authenticated %}
+            <li class="nav-item">
+              <a class="nav-link" href="{% url 'logout' %}">Log out</a>
+            </li>
+            {% else %}
+            <li class="nav-item">
+              <a class="nav-link{% if current == 'login' %} active{% endif %}" href="{% url 'login' %}">EMR Team Login</a>
+            </li>
+            {% endif %}
+          </ul>
+        </div>
+      </nav>
+    </div>
+  </div>
+  {% endwith %}
+
+  <main class="site-main">
+    <div class="container-fluid px-4">
+      {% if messages %}
+        {% for message in messages %}
+        <div class="alert alert-{% if message.tags == 'error' %}danger{% elif message.tags %}{{ message.tags }}{% else %}info{% endif %} alert-dismissible fade show" role="alert">
+          {{ message }}
+          <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        </div>
+        {% endfor %}
+      {% endif %}
+
+      {% block content %}{% endblock %}
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      Northside Hospital Cancer Institute &middot; Department of Radiation Oncology
+    </div>
+  </footer>
+
+  <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+</body>
+</html>

@@ -42,6 +42,7 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -80,6 +81,9 @@ DATABASES = {
         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
     }
 }
+
+# Where @login_required sends unauthenticated users
+LOGIN_URL = 'login'
 
 SITE_HOST = '10.40.71.201:2000'
 
@@ -140,4 +144,10 @@ STATIC_URL = '/static/'
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'EMRrequest/static'),
 ]
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+
+# WhiteNoise serves static files from the app itself, so they load when the server
+# is launched from Task Scheduler or run with DEBUG off. USE_FINDERS means no
+# collectstatic step is needed.
+WHITENOISE_USE_FINDERS = True
 

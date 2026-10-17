@@ -1,35 +1,22 @@
+{% extends 'base.html' %}
+{% block title %}Login &middot; EMR Change Requests{% endblock %}
 
-{% extends 'base.html'%}
-
-
-
-{% block content%}
-
-
-
-
-
-    
+{% block content %}
+<div class="card login-card">
+  <div class="card-header">EMR Team Login</div>
+  <div class="card-body">
+    <form method="POST" action="{% url 'login' %}">
+      {% csrf_token %}
+      <div class="form-group">
+        <label for="username">Username</label>
+        <input type="text" class="form-control" id="username" name="username" autocomplete="username" autofocus required>
+      </div>
+      <div class="form-group">
+        <label for="password">Password</label>
+        <input type="password" class="form-control" id="password" name="password" autocomplete="current-password" required>
+      </div>
+      <button type="submit" class="btn btn-primary btn-block">Log in</button>
+    </form>
   </div>
-
-
-<div class = "col-md-6 offset-md-3">
-    <form method ="POST" action = "{% url 'login' %}">
-          {% csrf_token %}
-        <div class="form-group">
-          <label for="exampleInputEmail1">Username</label>
-          <input type="text" class="form-control"  placeholder = "username" name = "username">
-          
-        </div>
-        <div class="form-group">
-          <label for="exampleInputPassword1">Password</label>
-          <input type="password" class="form-control"  placeholder = "password
-          " name = "password">
-        </div>
-       
-        <button type="submit" class="btn btn-primary">Login</button>
-      </form>
- </div>>
-
- {%endblock%}
-    
+</div>
+{% endblock %}

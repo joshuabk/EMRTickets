@@ -13,6 +13,6 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='emrrequest',
             name='DateCompleted',
-            field=models.DateTimeField(default=''),
+            field=models.DateTimeField(null=True),
         ),
     ]
