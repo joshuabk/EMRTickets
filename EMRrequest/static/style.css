@@ -15,10 +15,12 @@ html, body {
   height: 100%;
 }
 
-/* Always reserve the scrollbar so the layout doesn't shift between short and tall pages */
+/* Always reserve the scrollbar so the layout doesn't shift between short and tall pages.
+   font-size scales the whole app (everything is in rem); 115% = ~15% magnification. */
 html {
   overflow-y: scroll;
   scrollbar-gutter: stable;
+  font-size: 115%;
 }
 
 body {
