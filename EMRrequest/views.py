@@ -43,9 +43,9 @@ def addRequest(request):
             print('send mail')
 
           
-            '''connection = mail.get_connection()
+            connection = mail.get_connection()
             print(connection)
-                if isinstance(connection, EmailBackend):
+            if isinstance(connection, EmailBackend):
                 connection.open()
                 print("connection is open")
              
@@ -58,12 +58,12 @@ def addRequest(request):
                   'New EMR Change Request',
                    body,
                    settings.EMAIL_HOST_USER,
-                   ['Ashley.davis2@northside.com', 'Laura.NkwentiBimbo@northside.com','Debra.Corbin@northside.com','Mrugesh.Patel@northside.com', 'Terror.Ragland@northside.com','Tomi.Ogunleye@northside.com', 'Gina.Kellogg@northside.com', 'Alisha.Childs@northside.com','Darlene.ritarita@northside.com','Camille.smith2@northside.com','Ashley.Chackalayil@northside.com','RadiationOncologyEMR@northside.com'])
+                   ['Ashley.davis2@northside.com', 'Mrugesh.Patel@northside.com', 'Terror.Ragland@northside.com','Tomi.Ogunleye@northside.com','Ashley.Chackalayil@northside.com','RadiationOncologyEMR@northside.com'])
             
            
             email.send()
             
-
+            
             email2 = EmailMessage(
                   'EMR Change Request Confirmation',
                    body2,
@@ -76,7 +76,7 @@ def addRequest(request):
 
            
 
-            print('mail sent')'''
+            print('mail sent')
 
             
             return render(request, 'requestSuccess.html', {'requestID': req.pk})
