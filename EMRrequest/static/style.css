@@ -217,6 +217,9 @@ label {
   border: 1px solid var(--line);
   border-radius: 8px;
   overflow: auto;
+  /* Cap to the window so rows scroll inside the box and the horizontal
+     scrollbar is always visible without scrolling to the bottom of the page. */
+  max-height: calc(100vh - 16.5rem);
 }
 
 .request-table {
@@ -227,7 +230,7 @@ label {
 
 .request-table thead th,
 .request-table tbody td {
-  padding: 0.4rem 0.55rem;
+  padding: 0.3rem 0.5rem;
 }
 
 .request-table thead th {
@@ -271,7 +274,7 @@ label {
   white-space: pre-wrap;
   min-width: 14rem;
   max-width: 22rem;
-  max-height: 4.4rem;   /* exactly 4 lines; scrolls inside the cell beyond that */
+  max-height: 3.3rem;   /* 3 lines; scrolls inside the cell beyond that */
   overflow-y: auto;
   line-height: 1.35;
 }
@@ -279,6 +282,7 @@ label {
 .request-table .cell-text--wide {
   min-width: 20rem;
   max-width: 28rem;
+  max-height: 4.4rem;   /* 4 lines for Request and Comment */
 }
 
 .request-table .cell-actions {
